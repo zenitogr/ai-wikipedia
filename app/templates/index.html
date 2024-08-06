@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to AI-Generated Wikipedia</h1>
+    <p>Enter a topic below to search for related terms.</p>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <form id="search-form" action="{{ url_for('search') }}" method="post">
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" name="topic" required placeholder="Enter a topic...">
+        <button type="submit" id="search-button">Search</button>
+    </form>
+    <div id="loading" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>Searching...</p>
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('search-button').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            this.submit();
+        });
+    </script>
+{% endblock %}

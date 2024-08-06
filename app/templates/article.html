@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    
+    
+    {{ article | markdown | safe }}
+    
+    
+    <!-- {% if is_valid %}
+        <p class="valid">This article has been fact-checked and appears to be valid.</p>
+    {% else %}
+        <p class="invalid">This article could not be fully validated. Please verify information independently.</p>
+    {% endif %}
+    
+    <h3>Citation</h3>
+    <p>{{ citation }}</p> -->
+    
+    <a href="{{ url_for('index') }}">Generate another article</a>
+{% endblock %}

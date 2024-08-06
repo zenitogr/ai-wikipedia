@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Search Results for "{{ topic }}"</h1>
+    
+    {% if similar_terms %}
+        <p>Click on a term to generate an article:</p>
+        <ul class="search-results">
+        <li><a href="{{ url_for('generate', topic=topic) }}">{{ topic }}</a></li>
+            {% for term in similar_terms %}
+                <li><a href="{{ url_for('generate', topic=term) }}">{{ term }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No similar terms found. Try a different search term.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('index') }}" class="back-button">Back to Search</a>
+{% endblock %}
