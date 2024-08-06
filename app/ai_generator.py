@@ -68,7 +68,7 @@ def generate_and_validate_article(topic):
     return article
 
 def get_similar_terms(topic):
-    prompt = f"Generate a list of 5-10 similar wiki terms or related wiki topics for '{topic}'.include the category and subcategory of the topic in parentheses. Return the result as a comma-separated list. example response: topic (category - subcategory), topic (category - subcategory), topic (category - subcategory)"
+    prompt = f"say nothing else but a list of comma-separated 5-10 similar wiki terms or related wiki topics for [topic]{topic}[/topic].include the category and subcategory of the topic in parentheses. generate a category and subcatory for the input topic also.[response-format] OrigitalTopic (category - subcategory), topic2 (category - subcategory), topic3 (category - subcategory), topicN (category - subcategory)[/response-format]"
     
     chat_completion = client.chat.completions.create(
         messages=[

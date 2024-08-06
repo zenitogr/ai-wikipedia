@@ -6,7 +6,7 @@
     {% if similar_terms %}
         <p>Click on a term to generate an article:</p>
         <ul class="search-results">
-        <li><a href="{{ url_for('generate', topic=topic) }}">{{ topic }}</a></li>
+        
             {% for term in similar_terms %}
                 <li><a href="{{ url_for('generate', topic=term) }}">{{ term }}</a></li>
             {% endfor %}
