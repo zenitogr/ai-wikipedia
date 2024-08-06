@@ -43,5 +43,5 @@ def generate(topic):
         return render_template('index.html', title='AI Wikipedia')
     
     return render_template('article.html', 
-                           title=topic,
+                           title=decoded_topic,
                            article=article)
