@@ -16,8 +16,8 @@ def generate_sections(topic):
                 "content": prompt,
             }
         ],
-        model="mixtral-8x7b-32768",
-        max_tokens=100,
+        model="llama-3.1-8b-instant",
+        max_tokens=8000,
     )
     sections = [s.strip() for s in response.choices[0].message.content.split(',')]
     return sections
@@ -33,8 +33,8 @@ def generate_article(topic):
                 "content": prompt,
             }
         ],
-        model="mixtral-8x7b-32768",
-        max_tokens=32768,
+        model="llama-3.1-70b-versatile",
+        max_tokens=8000,
     )
     article = response.choices[0].message.content
         
@@ -77,9 +77,9 @@ def get_similar_terms(topic):
                 "content": prompt,
             }
         ],
-        model="mixtral-8x7b-32768",
+        model="llama-3.1-8b-instant",
         temperature=0.5,
-        max_tokens=32768,
+        max_tokens=8000,
     )
 
     response = chat_completion.choices[0].message.content
