@@ -30,6 +30,7 @@ def search():
 
 @app.route('/generate/<topic>', methods=['GET'])
 def generate(topic):
+    decoded_topic = topic.replace('%20', ' ')
     try:
         article = generate_and_validate_article(topic)
     except requests.RequestException:
