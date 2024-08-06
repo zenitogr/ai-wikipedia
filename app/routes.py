@@ -2,6 +2,7 @@ from flask import render_template, request, jsonify, flash
 from flask import current_app as app
 from app.ai_generator import generate_and_validate_article, get_similar_terms
 import requests
+from app.image_finder import get_images_for_suggestions
 
 app.logger.debug('Routes module loaded')
 
@@ -32,8 +33,8 @@ def search():
 def generate(topic):
     decoded_topic = topic.replace('%20', ' ')
     try:
-        article = generate_and_validate_article(decoded_topic)
-
+        article, image_suggestions = generate_and_validate_article(decoded_topic)
+        images = get_images_for_suggestions(image_suggestions)
     except requests.RequestException:
         flash('An error occurred while generating the article. Please try again later.', 'error')
         return render_template('index.html', title='AI Wikipedia')
@@ -44,4 +45,5 @@ def generate(topic):
     
     return render_template('article.html', 
                            title=decoded_topic,
-                           article=article)
+                           article=article,
+                           images=images)

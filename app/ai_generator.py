@@ -24,8 +24,16 @@ def generate_sections(topic):
 
 def generate_article(topic):
     sections = generate_sections(topic)
-    article = ""
-    prompt = f"Write a Wikipedia article about {topic}. Here's the sections:\n\n{', '.join(sections)}\n\nSections should be markdown headers.\n\nNow, write the article:"
+    prompt = f"""Write a Wikipedia article about {topic}. Here's the sections:
+
+{', '.join(sections)}
+
+Sections should be markdown headers.
+
+Also, suggest 3 relevant image descriptions (without actually generating images) that could accompany this article. Format the image suggestions as a list at the end of the article, each prefixed with 'IMAGE:'.
+
+Now, write the article:"""
+    
     response = client.chat.completions.create(
         messages=[
             {
@@ -37,9 +45,13 @@ def generate_article(topic):
         max_tokens=8000,
     )
     article = response.choices[0].message.content
-        
-         
-    return article
+    
+    # Split the article and image suggestions
+    article_parts = article.split('IMAGE:')
+    main_article = article_parts[0].strip()
+    image_suggestions = [img.strip() for img in article_parts[1:]]
+    
+    return main_article, image_suggestions
 
 def fact_check(topic, generated_text):
     # This is a simple fact-checking mechanism using Wikipedia API
@@ -62,10 +74,8 @@ def generate_citation(topic):
     return f"{title}. Wikipedia. Retrieved on {datetime.now().strftime('%Y-%m-%d')} from {url}"
 
 def generate_and_validate_article(topic):
-    article = generate_article(topic)
-    #is_valid = fact_check(topic, article['Introduction'])
-    #citation = generate_citation(topic)
-    return article
+    article, image_suggestions = generate_article(topic)
+    return article, image_suggestions
 
 def get_similar_terms(topic):
     prompt = f"say nothing else but a list of comma-separated 10 similar wiki terms or related wiki topics from the term: {topic}.include the category and subcategory of the topic in parentheses. generate a category and subcatory for the input topic also.###response-format-start### OrigitalTopic (category - subcategory), topic2 (category - subcategory), topic3 (category - subcategory), topicN (category - subcategory)###response-format-end###"
