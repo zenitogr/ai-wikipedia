@@ -4,6 +4,10 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from config import Config
 import time
+import logging
+
+# Create a logger for this module
+logger = logging.getLogger(__name__)
 
 client = Groq(api_key=Config.GROQ_API_KEY)
 
@@ -50,6 +54,9 @@ Now, write the article:"""
     article_parts = article.split('IMAGE:')
     main_article = article_parts[0].strip()
     image_suggestions = [img.strip() for img in article_parts[1:]]
+    
+    logger.info(f"Generated article for topic: {topic}")
+    logger.info(f"Image suggestions: {image_suggestions}")
     
     return main_article, image_suggestions
 

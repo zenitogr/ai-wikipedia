@@ -7,12 +7,24 @@
         </div>
         <div class="image-suggestions">
             <h3>Related Images</h3>
-            {% for image in images %}
-                <div class="image-container">
-                    <img src="{{ image.url }}" alt="{{ image.description }}">
-                    <p>{{ image.description }}</p>
-                </div>
-            {% endfor %}
+            {% if images %}
+                <p>Debug: {{ images|length }} images found</p>
+                {% for image in images %}
+                    <div class="image-container">
+                        <img src="{{ image.url }}" alt="{{ image.description }}">
+                        <p>{{ image.description }}</p>
+                        s<p>Image URL: {{ image.url }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- <p>No related images found.</p>
+                <p>Debug: Image suggestions:</p>
+                <ul>
+                {% for suggestion in image_suggestions %}
+                    <li>{{ suggestion }}</li>
+                {% endfor %}
+                </ul> -->
+            {% endif %}
         </div>
     </div>
     

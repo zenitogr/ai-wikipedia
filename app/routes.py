@@ -3,6 +3,10 @@ from flask import current_app as app
 from app.ai_generator import generate_and_validate_article, get_similar_terms
 import requests
 from app.image_finder import get_images_for_suggestions
+import logging
+
+# Create a logger for this module
+logger = logging.getLogger(__name__)
 
 app.logger.debug('Routes module loaded')
 
@@ -33,17 +37,26 @@ def search():
 def generate(topic):
     decoded_topic = topic.replace('%20', ' ')
     try:
+        logger.info(f"Generating article for topic: {decoded_topic}")
         article, image_suggestions = generate_and_validate_article(decoded_topic)
+        logger.info(f"Article generated. Image suggestions: {image_suggestions}")
+        
         images = get_images_for_suggestions(image_suggestions)
-    except requests.RequestException:
+        logger.info(f"Images found: {images}")
+        
+        if not images:
+            logger.warning(f"No images found for topic: {decoded_topic}")
+    except requests.RequestException as e:
+        logger.error(f"Request error while generating article: {str(e)}")
         flash('An error occurred while generating the article. Please try again later.', 'error')
         return render_template('index.html', title='AI Wikipedia')
     except Exception as e:
-        app.logger.error(f'Error generating article: {str(e)}')
+        logger.error(f'Error generating article: {str(e)}')
         flash('An unexpected error occurred. Please try again later.', 'error')
         return render_template('index.html', title='AI Wikipedia')
     
     return render_template('article.html', 
                            title=decoded_topic,
                            article=article,
-                           images=images)
+                           images=images,
+                           image_suggestions=image_suggestions)
