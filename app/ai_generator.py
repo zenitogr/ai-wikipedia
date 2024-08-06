@@ -25,7 +25,7 @@ def generate_sections(topic):
 def generate_article(topic):
     sections = generate_sections(topic)
     article = ""
-    prompt = f"Write a Wikipedia article about {topic}. Here's the sections:\n\n{', '.join(sections)}\n\nNow, write the article:"
+    prompt = f"Write a Wikipedia article about {topic}. Here's the sections:\n\n{', '.join(sections)}\n\nSections should be markdown headers.\n\nNow, write the article:"
     response = client.chat.completions.create(
         messages=[
             {
