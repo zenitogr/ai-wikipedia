@@ -20,7 +20,7 @@ def generate_sections(topic):
         max_tokens=100,
     )
     sections = [s.strip() for s in response.choices[0].message.content.split(',')]
-    return ['Introduction'] + sections + ['Conclusion']
+    return sections
 
 def generate_article(topic):
     sections = generate_sections(topic)
@@ -68,7 +68,7 @@ def generate_and_validate_article(topic):
     return article
 
 def get_similar_terms(topic):
-    prompt = f"Generate a list of 5-10 similar terms or related topics for '{topic}'. Return the result as a comma-separated list."
+    prompt = f"Generate a list of 5-10 similar wiki terms or related wiki topics for '{topic}'.include the category and subcategory of the topic in parentheses. Return the result as a comma-separated list. example response: topic (category - subcategory), topic (category - subcategory), topic (category - subcategory)"
     
     chat_completion = client.chat.completions.create(
         messages=[
