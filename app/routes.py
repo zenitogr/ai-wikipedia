@@ -30,8 +30,10 @@ def search():
 
 @app.route('/generate/<topic>', methods=['GET'])
 def generate(topic):
+    decoded_topic = topic.replace('%20', ' ')
     try:
-        article = generate_and_validate_article(topic)
+        article = generate_and_validate_article(decoded_topic)
+
     except requests.RequestException:
         flash('An error occurred while generating the article. Please try again later.', 'error')
         return render_template('index.html', title='AI Wikipedia')
