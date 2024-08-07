@@ -23,14 +23,18 @@ redis_client = redis.Redis(
 @app.route('/')
 def index():
     app.logger.debug('Index route accessed')
-    return render_template('index.html', title='AI Wikipedia')
+    return render_template('index.html', title='AI Wiki')
 
+@app.route('/about')
+def about():
+    app.logger.debug('About route accessed')
+    return render_template('about.html', title='About AI Wiki')
 @app.route('/search', methods=['POST'])
 def search():
     topic = request.form.get('topic')
     if not topic:
         flash('Please enter a topic.', 'error')
-        return render_template('index.html', title='AI Wikipedia')
+        return render_template('index.html', title='AI Wiki')
 
     try:
         similar_terms = ai_generator.get_similar_terms(topic)
