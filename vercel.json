@@ -14,5 +14,10 @@
   ],
   "env": {
     "PYTHONUNBUFFERED": "1"
+  },
+  "build": {
+    "env": {
+      "GUNICORN_CMD_ARGS": "--config gunicorn_config.py"
+    }
   }
 }

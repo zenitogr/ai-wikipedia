@@ -1,9 +1,13 @@
 from flask import Flask
-from config import Config
+from config import DevelopmentConfig, ProductionConfig
+from app.logging_config import configure_logging
 
-def create_app():
+def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
+    
+    # Configure logging
+    configure_logging()
     
     with app.app_context():
         from app import routes
