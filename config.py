@@ -3,7 +3,11 @@ import os
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
-    
+    REDIS_URL = os.environ.get('REDIS_URL')
+    REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD')
+
+    if not REDIS_URL or not REDIS_PASSWORD:
+        raise ValueError("REDIS_URL and REDIS_PASSWORD must be set in environment variables")
     if not GROQ_API_KEY:
         raise ValueError("No GROQ_API_KEY set for Flask application")
     if not SECRET_KEY:

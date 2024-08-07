@@ -4,11 +4,22 @@ from app.ai_generator import generate_and_validate_article, get_similar_terms
 import requests
 from app.image_finder import get_images_for_suggestions
 import logging
+import redis
+import json
+from config import Config
 
 # Create a logger for this module
 logger = logging.getLogger(__name__)
 
 app.logger.debug('Routes module loaded')
+
+# Set up Redis connection
+redis_client = redis.Redis(
+    host=Config.REDIS_URL,
+    port=14501,
+    password=Config.REDIS_PASSWORD,
+    decode_responses=True
+)
 
 @app.route('/')
 def index():
@@ -36,7 +47,22 @@ def search():
 @app.route('/generate/<topic>', methods=['GET'])
 def generate(topic):
     decoded_topic = topic.replace('%20', ' ')
+    cache_key = f"article:{decoded_topic}"
+    logger.info(f"Cache key: {cache_key} - decoded topic: {decoded_topic}")
     try:
+        # Try to get the cached result
+        cached_result = redis_client.get(cache_key)
+        
+        if cached_result:
+            cached_data = json.loads(cached_result)
+            logger.info(f"Returning cached article for topic: {decoded_topic}")
+            return render_template('article.html', 
+                                   title=decoded_topic,
+                                   article=cached_data['article'],
+                                   images=cached_data['images'],
+                                   image_suggestions=cached_data['image_suggestions'])
+
+
         logger.info(f"Generating article for topic: {decoded_topic}")
         article, image_suggestions = generate_and_validate_article(decoded_topic)
         logger.info(f"Article generated. Image suggestions: {image_suggestions}")
@@ -46,6 +72,15 @@ def generate(topic):
         
         if not images:
             logger.warning(f"No images found for topic: {decoded_topic}")
+
+        # Cache the result
+        cache_data = {
+            'article': article,
+            'images': images,
+            'image_suggestions': image_suggestions
+        }
+        redis_client.setex(cache_key, 3600, json.dumps(cache_data))  # Cache for 1 hour
+
     except Exception as e:
         logger.error(f'Error generating article or finding images: {str(e)}')
         flash('An unexpected error occurred. Please try again later.', 'error')

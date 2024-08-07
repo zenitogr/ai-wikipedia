@@ -5,3 +5,4 @@ groq
 python-dotenv
 markdown
 requests
+redis
