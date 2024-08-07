@@ -20,8 +20,8 @@ def generate_sections(topic):
                 "content": prompt,
             }
         ],
-        model="llama-3.1-8b-instant",
-        max_tokens=8000,
+        model="llama3-8b-8192",
+        max_tokens=8192,
     )
     sections = [s.strip() for s in response.choices[0].message.content.split(',')]
     return sections
@@ -34,7 +34,7 @@ def generate_article(topic):
 
 Sections should be markdown headers.
 
-Also, suggest 3 relevant image descriptions (without actually generating images) that could accompany this article. Format the image suggestions as a list at the end of the article, each prefixed with 'IMAGE:'.
+Also, suggest around 10 relevant short image search queries (without actually generating images) that could accompany this article. Format the short image suggestions as a list at the end of the article, each prefixed with 'IMAGE:'.
 
 Now, write the article:"""
     
@@ -45,8 +45,8 @@ Now, write the article:"""
                 "content": prompt,
             }
         ],
-        model="llama-3.1-70b-versatile",
-        max_tokens=8000,
+        model="llama3-70b-8192",
+        max_tokens=8192,
     )
     article = response.choices[0].message.content
     
@@ -60,32 +60,13 @@ Now, write the article:"""
     
     return main_article, image_suggestions
 
-def fact_check(topic, generated_text):
-    # This is a simple fact-checking mechanism using Wikipedia API
-    url = f"https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=1&explaintext=1&titles={topic}"
-    response = requests.get(url)
-    data = response.json()
-    page = next(iter(data['query']['pages'].values()))
-    if 'extract' in page:
-        wikipedia_intro = page['extract']
-        # Compare the first sentence of generated text with Wikipedia intro
-        if generated_text.split('.')[0].lower() in wikipedia_intro.lower():
-            return True
-    return False
-
-def generate_citation(topic):
-    url = f"https://en.wikipedia.org/wiki/{topic.replace(' ', '_')}"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    title = soup.find('h1', {'id': 'firstHeading'}).text
-    return f"{title}. Wikipedia. Retrieved on {datetime.now().strftime('%Y-%m-%d')} from {url}"
 
 def generate_and_validate_article(topic):
     article, image_suggestions = generate_article(topic)
     return article, image_suggestions
 
 def get_similar_terms(topic):
-    prompt = f"say nothing else but a list of comma-separated 10 similar wiki terms or related wiki topics from the term: {topic}.include the category and subcategory of the topic in parentheses. generate a category and subcatory for the input topic also.###response-format-start### OrigitalTopic (category - subcategory), topic2 (category - subcategory), topic3 (category - subcategory), topicN (category - subcategory)###response-format-end###"
+    prompt = f"Say nothing else, only respond with this template: input_title (category - subcategory), realtive_wiki_title_1 (category - subcategory), relative_wiki_title_2 (category - subcategory), relative_wiki_title_N (category - subcategory). relative_wiki_titles are 10 similar wiki titles to the input_title with their category and subcategory. remember dont say anything except the template list!!! the input_title is: {topic}"
     
     chat_completion = client.chat.completions.create(
         messages=[
@@ -94,9 +75,9 @@ def get_similar_terms(topic):
                 "content": prompt,
             }
         ],
-        model="llama-3.1-8b-instant",
+        model="llama3-8b-8192",
         temperature=0.5,
-        max_tokens=8000,
+        max_tokens=8192,
     )
 
     response = chat_completion.choices[0].message.content

@@ -8,12 +8,11 @@
         <div class="image-suggestions">
             <h3>Related Images</h3>
             {% if images %}
-                <p>Debug: {{ images|length }} images found</p>
+                
                 {% for image in images %}
                     <div class="image-container">
-                        <img src="{{ image.url }}" alt="{{ image.description }}">
-                        <p>{{ image.description }}</p>
-                        s<p>Image URL: {{ image.url }}</p>
+                        <img src="{{ image.url }}" alt="{{ image.file_name }}">
+                        <p><a href="{{ image.url }}">Wikipedia Commons file name: {{ image.file_name }}</a></p>
                     </div>
                 {% endfor %}
             {% else %}

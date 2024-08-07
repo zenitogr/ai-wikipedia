@@ -46,12 +46,8 @@ def generate(topic):
         
         if not images:
             logger.warning(f"No images found for topic: {decoded_topic}")
-    except requests.RequestException as e:
-        logger.error(f"Request error while generating article: {str(e)}")
-        flash('An error occurred while generating the article. Please try again later.', 'error')
-        return render_template('index.html', title='AI Wikipedia')
     except Exception as e:
-        logger.error(f'Error generating article: {str(e)}')
+        logger.error(f'Error generating article or finding images: {str(e)}')
         flash('An unexpected error occurred. Please try again later.', 'error')
         return render_template('index.html', title='AI Wikipedia')
     

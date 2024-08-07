@@ -26,10 +26,11 @@ def search_wikimedia_commons(query):
                 image_url = get_file_url(file_name)
                 if image_url:
                     logger.debug(f"Found file: {file_name}")
-                    return image_url
+                    return image_url, file_name
             logger.warning(f"No valid image found for query: {query}")
         else:
             logger.warning(f"No search results found for query: {query}")
+            return "noimage", "noimage"
     except requests.RequestException as e:
         logger.error(f"Error searching Wikimedia Commons: {str(e)}")
     return None
@@ -62,20 +63,20 @@ def get_file_url(file_name):
 def get_images_for_suggestions(image_suggestions):
     images = []
     if isinstance(image_suggestions, str):
-        image_suggestions = [s.strip() for s in image_suggestions.split('*') if s.strip()]
+        image_suggestions = [s.strip() for s in image_suggestions.split('\n') if s.strip()]
     
     for suggestion in image_suggestions:
         logger.info(f"Searching for image: {suggestion}")
-        image_url = search_wikimedia_commons(suggestion)
-        if image_url:
-            images.append({"description": suggestion, "url": image_url})
+        image_url, file_name = search_wikimedia_commons(suggestion)
+        if image_url != "noimage":
+            images.append({"description": suggestion, "url": image_url, "file_name": file_name})
         else:
             # If no image found, try searching with a more general term
             general_term = suggestion.split(',')[0].strip()  # Take the first part of the suggestion
             logger.info(f"Trying general term: {general_term}")
-            image_url = search_wikimedia_commons(general_term)
-            if image_url:
-                images.append({"description": suggestion, "url": image_url})
+            image_url, file_name = search_wikimedia_commons(general_term)
+            if image_url != "noimage":
+                images.append({"description": suggestion, "url": image_url, "file_name": file_name})
             else:
                 logger.warning(f"No image found for suggestion: {suggestion}")
     
