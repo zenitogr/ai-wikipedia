@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}AI Wikipedia{% endblock %}</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    {% block head %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <nav>
             <a href="{{ url_for('index') }}" class="nav-button">Home</a>
-            <a href="{{ url_for('index') }}" class="nav-button">Search</a>
-            <a href="#" class="nav-button">About</a>
+            <a href="{{ url_for('cached_articles') }}" class="nav-button">Cached Articles</a>
+            <a href="{{ url_for('index') }}" class="nav-button">About</a>
         </nav>
     </header>
-
     <main>
         {% block content %}{% endblock %}
     </main>
-
     <footer>
-        <p>&copy; 2024 AI-Generated Wikipedia. All rights reserved.</p>
+        <p>&copy; 2023 AI-Generated Wikipedia. All rights reserved.</p>
     </footer>
-
-    {% block scripts %}{% endblock %}
 </body>
 </html>

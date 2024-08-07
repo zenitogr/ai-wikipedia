@@ -3,7 +3,7 @@
 {% block content %}
     <div class="article-container">
         <div class="article-content">
-            {{ article | markdown | safe }}
+            {{ content | markdown | safe }}
         </div>
         <div class="image-suggestions">
             <h3>Related Images</h3>
@@ -20,5 +20,5 @@
         </div>
     </div>
     
-    <a href="{{ url_for('index') }}">Generate another article</a>
+    <a href="{{ url_for('cached_articles') }}" class="back-button">Back to Cached Articles</a>
 {% endblock %}
