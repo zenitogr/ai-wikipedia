@@ -120,6 +120,37 @@ button:hover {
     background-color: #333;
 }
 
+/* Styles for similar terms to look like buttons */
+.similar-terms-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between buttons */
+}
+
+.similar-terms-list li {
+    margin: 0; /* Remove default list item margin */
+}
+
+.similar-terms-list a {
+    display: inline-block; /* Make the link behave like a block for padding */
+    background: linear-gradient(90deg, #ff00ff, #00ffff); /* Button gradient */
+    color: #fff; /* White text */
+    padding: 10px 15px; /* Button padding */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Indicate clickable */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease; /* Hover effect */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.similar-terms-list a:hover {
+    background: linear-gradient(90deg, #00ffff, #ff00ff); /* Hover gradient */
+}
+
+
 .back-button {
     display: inline-block;
     margin-top: 20px;

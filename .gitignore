@@ -7,3 +7,5 @@ venv*
 .vercel
 *.db
 .env*.local
+node_modules
+.next

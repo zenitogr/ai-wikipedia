@@ -1,0 +1,34 @@
+{
+  "name": "ai-wikipedia",
+  "version": "1.0.0",
+  "description": "AI-Generated Wikipedia is a Flask web application that generates Wikipedia-style articles based on user-provided topics. The application utilizes the Groq API for generating content and Wikimedia Commons for fetching related images.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zenitogr/ai-wikipedia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zenitogr/ai-wikipedia/issues"
+  },
+  "homepage": "https://github.com/zenitogr/ai-wikipedia#readme",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
+    "groq-sdk": "^0.25.0",
+    "next": "^15.3.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.8",
+    "typescript": "5.8.3"
+  }
+}
