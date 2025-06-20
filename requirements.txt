@@ -4,5 +4,5 @@ beautifulsoup4
 groq
 python-dotenv
 markdown
-redis
 gunicorn
+dotenv

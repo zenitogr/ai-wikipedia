@@ -11,12 +11,12 @@ class AIGenerator:
 
     def generate_article(self, topic):
         prompt = self._create_article_prompt(topic)
-        response = self._get_groq_response(prompt, model="llama3-70b-8192")
+        response = self._get_groq_response(prompt, model="meta-llama/llama-4-maverick-17b-128e-instruct")
         return self._parse_article_response(response, topic)
 
     def get_similar_terms(self, topic):
         prompt = self._create_similar_terms_prompt(topic)
-        response = self._get_groq_response(prompt, model="llama3-8b-8192", temperature=0.5)
+        response = self._get_groq_response(prompt, model="meta-llama/llama-4-maverick-17b-128e-instruct", temperature=0.5)
         return self._parse_similar_terms_response(response)
 
     def _create_article_prompt(self, topic):
