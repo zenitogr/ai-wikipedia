@@ -204,83 +204,250 @@ main {
     min-height: calc(100vh - 150px);
 }
 
+/* Article Layout */
 .article-container {
     display: flex;
-    justify-content: space-between;
+    gap: 30px;
+    margin-top: 20px;
 }
-
 
 .article-content {
-    width: 70%;
+    flex-grow: 1;
+    flex-basis: 70%;
+    min-width: 0;
+    line-height: 1.7;
 }
 
-.image-suggestions {
-    width: 25%;
-    padding-left: 20px;
+.article-content h2 {
+    color: #00ffff;
+    font-size: 1.8em;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
 }
 
-.image-container {
-    margin-bottom: 20px;
+.article-content h3 {
+    color: #00ffff;
+    font-size: 1.4em;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
-.image-container img {
+.article-content p {
+    margin-bottom: 15px;
+}
+
+.article-sidebar {
+    flex-basis: 300px;
+    flex-shrink: 0;
+    background-color: #1e1e1e;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-size: 0.9em;
+}
+
+.article-sidebar h2 {
+    color: #00ffff;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.sidebar-image {
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    padding: 5px;
+    background-color: #2e2e2e;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.sidebar-image img {
     max-width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 
-.image-container p {
+.sidebar-image p {
+    font-size: 0.8em;
+    color: #b0b0b0;
     margin-top: 5px;
-    font-size: 0.9em;
-    color: #666;
 }
 
+.article-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.article-sidebar li {
+    margin-bottom: 8px;
+    padding-left: 15px;
+    position: relative;
+}
+
+.article-sidebar li::before {
+    content: '•';
+    color: #00ffff;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* Style for images within the article content */
+.article-image {
+    max-width: 300px;
+    height: auto;
+    float: right;
+    margin: 0 0 15px 20px;
+    border: 1px solid #555;
+    padding: 5px;
+    background-color: #2e2e2e;
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    color: #b0b0b0;
+}
+
+.article-image img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 2px;
+}
+
+.article-image p {
+    text-align: center;
+    font-size: 0.8em;
+    color: #b0b0b0;
+    margin-top: 5px;
+}
+
+/* Table of Contents Styling */
+.table-of-contents {
+    border: 1px solid #333;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #1e1e1e;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.table-of-contents h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #00ffff;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+.table-of-contents ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.table-of-contents li {
+    margin-bottom: 5px;
+}
+
+.table-of-contents li a {
+    color: #b0b0b0;
+    text-decoration: none;
+}
+
+.table-of-contents li a:hover {
+    text-decoration: underline;
+}
+
+.toc-level-3 {
+    padding-left: 20px; /* Indent level 3 headers */
+}
+
+/* Cached Articles List */
 .cached-articles {
     list-style-type: none;
-    padding:0;
+    padding: 0;
+    margin-top: 20px; /* Add space below the heading */
 }
 
 .cached-article {
     background: linear-gradient(135deg, #2f00ff, #ad9300);
     padding: 15px;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
+    display: flex; /* Use flexbox for layout */
+    gap: 15px; /* Space between image and text */
+    align-items: center; /* Vertically align items */
 }
 
 .cached-article:hover {
     transform: scale(1.02);
 }
 
+.cached-article a {
+    text-decoration: none;
+    color: inherit;
+    display: flex; /* Also use flex for the link content */
+    gap: 15px; /* Match the gap */
+    align-items: center;
+    width: 100%; /* Ensure link takes full width */
+}
+
+.cached-article-image {
+    flex-shrink: 0; /* Prevent image from shrinking */
+    width: 100px; /* Fixed width for image */
+    height: 100px; /* Fixed height for image */
+    overflow: hidden; /* Hide parts of the image that exceed the container */
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #2e2e2e;
+    display: flex; /* Use flex to center the image inside the container */
+    justify-content: center;
+    align-items: center;
+}
+
+.cached-article-image img {
+    display: block;
+    width: 100%; /* Make image fill the container width */
+    height: 100%; /* Make image fill the container height */
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    border-radius: 2px;
+}
+
+.cached-article-text {
+    flex-grow: 1; /* Allow text to take up remaining space */
+}
+
 .cached-article-title {
     font-size: 1.8em;
     font-weight: bold;
-    color: #ffffff; /* Change to white or another visible color */
+    color: #ffffff;
     margin-bottom: 10px;
-    background: none; /* Remove the background gradient */
+    background: none;
 }
 
 .cached-article-content {
     font-size: 1em;
     color: #e0e0e0;
     line-height: 1.6;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
-/* Add any custom styles for the About page here */
-.about-page h1 {
-    color: #ff00ff;
-    font-size: 2.5em;
-    margin-bottom: 20px;
+/* Remove unused classes */
+.image-suggestions {
+    display: none;
 }
 
-.about-page p, .about-page ul {
-    color: #e0e0e0;
-    line-height: 1.6;
-}
-
-.about-page ul {
-    list-style-type: disc;
-    padding-left: 20px;
+.image-container {
+    display: none;
 }

@@ -17,12 +17,16 @@ async function getGroqCompletion(prompt: string, model: string, temperature: num
 
 async function generateArticleContent(topic: string): Promise<{ articleContent: string; imageSuggestions: string[] }> {
   const prompt = `
-    Generate a Wikipedia article about ${topic}. Include 4-6 relevant section titles.
-    Sections should be markdown headers.
-    Also, suggest around 10 relevant short image search queries (without actually generating images) that could accompany this article.
-    Format the short image suggestions as a list at the end of the article, each prefixed with 'IMAGE:'.
-    Now, write the article:
-    `;
+Generate the content for a Wikipedia article about ${topic}.
+
+Include 4-6 relevant section titles using markdown headers (e.g., ## Section Title).
+
+Following the article content, provide a list of approximately 10 relevant short image search queries. Each query should be on a new line and prefixed with 'IMAGE:'.
+
+Do not include any introductory or concluding remarks, or any other text outside of the article content and the 'IMAGE:' list.
+
+Article content and image suggestions:
+`;
   const response = await getGroqCompletion(prompt, "meta-llama/llama-4-maverick-17b-128e-instruct");
 
   const articleParts = response.split('IMAGE:');
