@@ -4,9 +4,9 @@ import { redirect } from 'next/navigation';
 import { marked } from 'marked'; // Import marked library
 
 interface ArticlePageProps {
-  params: {
+  params: Promise<{ // Update type to Promise
     id: string;
-  };
+  }>;
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
